@@ -1,3 +1,4 @@
+#include <iostream>
 /*
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -47,10 +48,34 @@ static Thruster vectored_6dof_thrusters[] =
        Thruster(7,          -1.0f,          1.0f,           0,              -1.0f,              0,                  0)
 };
 
+static Thruster custom_thrusters[] =
+{
+       //        Motor #     Roll Factor     Pitch Factor    Yaw Factor      Throttle Factor     Forward Factor      Lateral Factor
+        // Original mobula developement rov allocation matrix
+        //Thruster(0,          0.000000,       0.000000,       -1.237771,      0.000000,           0.371572,           -0.352347                ),
+        //Thruster(1,          0.000000,       0.000000,       1.237771,       0.000000,           0.371572,           0.352347                 ),
+        //Thruster(2,          0.000000,       0.000000,       -1.114494,      0.000000,           0.334565,           0.355562                 ),
+        //Thruster(3,          0.000000,       0.000000,       1.114494,       0.000000,           0.334565,           -0.355562                ),
+        //Thruster(4,          -0.865052,      2.083333,       0.000000,       -0.231250,          0.000000,           0.000000                 ),
+        //Thruster(5,          -0.865052,      -2.083333,      0.000000,       0.231250,           0.000000,           0.000000                 ),
+        //Thruster(6,          0.865052,       2.083333,       0.000000,       0.268750,           0.000000,           0.000000                 ),
+        //Thruster(7,          0.865052,       -2.083333,      0.000000,       -0.268750,          0.000000,           0.000000                 ),
+
+        Thruster(0,          0.000000,       0.000000,       0.59413,        0.000000,           -1.0,               0.94826               ),
+        Thruster(1,          0.000000,       0.000000,       -0.59413,       0.000000,           -1.0,               -0.94826              ),
+        Thruster(2,          0.000000,       0.000000,       -0.534957,      0.000000,           0.9,                0.9569                ),
+        Thruster(3,          0.000000,       0.000000,       0.534957,       0.000000,           0.9,                0.9569                ),
+        Thruster(4,          0.415225,       -1.00000,       0.000000,       0.62236,            0.000000,           0.000000              ),
+        Thruster(5,          -0.415225,      -1.00000,       0.000000,       0.62236,            0.000000,           0.000000              ),
+        Thruster(6,          0.415225,       1.000000,       0.000000,       0.723178,           0.000000,           0.000000              ),
+        Thruster(7,          -0.415225,      1.000000,       0.000000,       0.723178,           0.000000,           0.000000              ),
+};
+
 Submarine::Submarine(const char *frame_str) :
     Aircraft(frame_str),
     frame(NULL)
 {
+    std::cout << "Entered Submarine with Frame: " << frame_str << std::endl;
     frame_height = 0.0;
     ground_behavior = GROUND_BEHAVIOR_NONE;
 
@@ -60,6 +85,10 @@ Submarine::Submarine(const char *frame_str) :
 
     if (strstr(frame_str, "vectored_6dof")) {
         thrusters = vectored_6dof_thrusters;
+        n_thrusters = 8;
+    }
+    else if (strstr(frame_str, "custom")) {
+        thrusters = custom_thrusters;
         n_thrusters = 8;
     }
     lock_step_scheduled = true;

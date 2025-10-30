@@ -1,3 +1,4 @@
+#include <iostream>
 /*
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -176,8 +177,26 @@ void AP_Motors6DOF::setup_motors(motor_frame_class frame_class, motor_frame_type
         break;
 
     case SUB_FRAME_CUSTOM:
-        // Put your custom motor setup here
-        //break;
+        _frame_class_string = "CUSTOM";
+        //                                      roll            pitch           yaw             down                forward             starboard    
+        // original mobula values:
+        //add_motor_raw_6dof(AP_MOTORS_MOT_1,     0.000000,       0.000000,       -1.237771,      0.000000,           0.371572,           -0.352347,                1);
+        //add_motor_raw_6dof(AP_MOTORS_MOT_2,     0.000000,       0.000000,       1.237771,       0.000000,           0.371572,           0.352347,                 2);
+        //add_motor_raw_6dof(AP_MOTORS_MOT_3,     0.000000,       0.000000,       -1.114494,      0.000000,           0.334565,           0.355562,                 3);
+        //add_motor_raw_6dof(AP_MOTORS_MOT_4,     0.000000,       0.000000,       1.114494,       0.000000,           0.334565,           -0.355562,                4);
+        //add_motor_raw_6dof(AP_MOTORS_MOT_5,     -0.865052,      2.083333,       0.000000,       -0.231250,          0.000000,           0.000000,                 5);
+        //add_motor_raw_6dof(AP_MOTORS_MOT_6,     -0.865052,      -2.083333,      0.000000,       0.231250,           0.000000,           0.000000,                 6);
+        //add_motor_raw_6dof(AP_MOTORS_MOT_7,     0.865052,       2.083333,       0.000000,       0.268750,           0.000000,           0.000000,                 7);
+        //add_motor_raw_6dof(AP_MOTORS_MOT_8,     0.865052,       -2.083333,      0.000000,       -0.268750,          0.000000,           0.000000,                 8);
+        add_motor_raw_6dof(AP_MOTORS_MOT_1,     0.000000,       0.000000,       0.59413,        0.000000,           -1.0,               0.94826,                1);
+        add_motor_raw_6dof(AP_MOTORS_MOT_2,     0.000000,       0.000000,       -0.59413,       0.000000,           -1.0,               -0.94826,               2);
+        add_motor_raw_6dof(AP_MOTORS_MOT_3,     0.000000,       0.000000,       -0.534957,      0.000000,           0.9,                0.9569,                 3);
+        add_motor_raw_6dof(AP_MOTORS_MOT_4,     0.000000,       0.000000,       0.534957,       0.000000,           0.9,                0.9569,                 4);
+        add_motor_raw_6dof(AP_MOTORS_MOT_5,     0.415225,       -1.00000,       0.000000,       0.62236,            0.000000,           0.000000,               5);
+        add_motor_raw_6dof(AP_MOTORS_MOT_6,     -0.415225,      -1.00000,       0.000000,       0.62236,            0.000000,           0.000000,               6);
+        add_motor_raw_6dof(AP_MOTORS_MOT_7,     0.415225,       1.000000,       0.000000,       0.723178,           0.000000,           0.000000,               7);
+        add_motor_raw_6dof(AP_MOTORS_MOT_8,     -0.415225,      1.000000,       0.000000,       0.723178,           0.000000,           0.000000,               8);
+        break;
 
     case SUB_FRAME_SIMPLEROV_3:
         _frame_class_string = "SIMPLEROV_3";
@@ -261,9 +280,11 @@ void AP_Motors6DOF::output_to_motors()
     case SpoolState::THROTTLE_UNLIMITED:
     case SpoolState::SPOOLING_DOWN:
         // set motor output based on thrust requests
+        std::cout << "Thruster values\n";
         for (i=0; i<AP_MOTORS_MAX_NUM_MOTORS; i++) {
             if (motor_enabled[i]) {
                 motor_out[i] = calc_thrust_to_pwm(_thrust_rpyt_out[i]);
+                std::cout << "Thruster " << std::to_string(i) << " pwm: " << motor_out[i] << std::endl;
             }
         }
         break;
