@@ -1,4 +1,3 @@
-#include <iostream>
 /*
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -75,7 +74,6 @@ Submarine::Submarine(const char *frame_str) :
     Aircraft(frame_str),
     frame(NULL)
 {
-    std::cout << "Entered Submarine with Frame: " << frame_str << std::endl;
     frame_height = 0.0;
     ground_behavior = GROUND_BEHAVIOR_NONE;
 

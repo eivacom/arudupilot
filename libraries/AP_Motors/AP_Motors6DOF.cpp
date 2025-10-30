@@ -1,4 +1,3 @@
-#include <iostream>
 /*
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -280,11 +279,9 @@ void AP_Motors6DOF::output_to_motors()
     case SpoolState::THROTTLE_UNLIMITED:
     case SpoolState::SPOOLING_DOWN:
         // set motor output based on thrust requests
-        std::cout << "Thruster values\n";
         for (i=0; i<AP_MOTORS_MAX_NUM_MOTORS; i++) {
             if (motor_enabled[i]) {
                 motor_out[i] = calc_thrust_to_pwm(_thrust_rpyt_out[i]);
-                std::cout << "Thruster " << std::to_string(i) << " pwm: " << motor_out[i] << std::endl;
             }
         }
         break;
